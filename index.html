@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ban Character Overlay</title>
+    <style>
+        body {
+            background: transparent;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            padding: 20px;
+        }
+        .team {
+            width: 45%;
+            text-align: center;
+        }
+        .team h2 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .banned-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        .banned-character {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            background: rgba(0, 0, 0, 0.7); 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            color: white;
+            padding: 5px;
+            border: 1px solid white;
+        }
+        .banned-character img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .banned-character .name {
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            text-align: center;
+            padding: 3px 0;
+        }
+        .banned-character .banned-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background: red;
+            width: 100%;
+            padding: 5px 0;
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            text-align: center;
+            text-transform: uppercase;
+            border-top: 1px solid black;
+        }
+        .banned-character.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="team" id="teamA">
+            <h2>Team A</h2>
+            <div class="banned-list" id="bannedTeamA"></div>
+        </div>
+        <div class="team" id="teamB">
+            <h2>Team B</h2>
+            <div class="banned-list" id="bannedTeamB"></div>
+        </div>
+    </div>
+
+    <script>
+        const bannedOperators = {
+            teamA: [
+                { name: "Operator 1", img: "operator1.png" },
+                { name: "Operator 2", img: "operator2.png" },
+                { name: "Operator 3", img: "operator3.png" },
+                { name: "Operator 4", img: "operator4.png" },
+                { name: "Operator 5", img: "operator5.png" }
+            ],
+            teamB: [
+                { name: "Operator 6", img: "operator6.png" },
+                { name: "Operator 7", img: "operator7.png" },
+                { name: "Operator 8", img: "operator8.png" },
+                { name: "Operator 9", img: "operator9.png" },
+                { name: "Operator 10", img: "operator10.png" }
+            ]
+        };
+        
+        function updateBannedCharacters() {
+            const teamAList = document.getElementById("bannedTeamA");
+            const teamBList = document.getElementById("bannedTeamB");
+            
+            teamAList.innerHTML = "";
+            teamBList.innerHTML = "";
+            
+            bannedOperators.teamA.forEach((op, index) => {
+                let div = document.createElement("div");
+                div.classList.add("banned-character");
+                div.innerHTML = `<img src="${op.img}" alt="${op.name}">
+                                 <div class='name'>${op.name}</div>
+                                 <div class='banned-text'>BANNED</div>`;
+                teamAList.appendChild(div);
+                setTimeout(() => div.classList.add("show"), index * 300);
+            });
+            
+            bannedOperators.teamB.forEach((op, index) => {
+                let div = document.createElement("div");
+                div.classList.add("banned-character");
+                div.innerHTML = `<img src="${op.img}" alt="${op.name}">
+                                 <div class='name'>${op.name}</div>
+                                 <div class='banned-text'>BANNED</div>`;
+                teamBList.appendChild(div);
+                setTimeout(() => div.classList.add("show"), index * 300);
+            });
+        }
+
+        updateBannedCharacters();
+    </script>
+</body>
+</html>
